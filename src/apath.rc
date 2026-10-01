@@ -1,0 +1,87 @@
+#include <windows.h>
+#include "resource.h"
+
+1 RT_MANIFEST "apath.manifest"
+IDI_APP ICON "../res/apath.ico"
+
+IDR_MENU MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New...\tCtrl+N", IDM_NEW
+        MENUITEM "&Open...\tCtrl+O", IDM_OPEN
+        MENUITEM "&Save\tCtrl+S", IDM_SAVE
+        MENUITEM "Save &As...\tCtrl+Shift+S", IDM_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit", IDM_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z", IDM_UNDO
+        MENUITEM "&Redo\tCtrl+Y", IDM_REDO
+        MENUITEM SEPARATOR
+        MENUITEM "&Triangulation\tCtrl+M", IDM_MESH
+        MENUITEM "Fill Client (1:1)\tCtrl+H", IDM_FILL_CLIENT
+    END
+    MENUITEM "&About", IDM_ABOUT
+END
+
+IDR_ACCEL ACCELERATORS
+BEGIN
+    "N", IDM_NEW, VIRTKEY, CONTROL
+    "O", IDM_OPEN, VIRTKEY, CONTROL
+    "S", IDM_SAVE, VIRTKEY, CONTROL
+    "S", IDM_SAVE_AS, VIRTKEY, CONTROL, SHIFT
+    "Z", IDM_UNDO, VIRTKEY, CONTROL
+    "Y", IDM_REDO, VIRTKEY, CONTROL
+    "M", IDM_MESH, VIRTKEY, CONTROL
+    "H", IDM_FILL_CLIENT, VIRTKEY, CONTROL
+    VK_F1, IDM_ABOUT, VIRTKEY
+END
+
+IDD_NEW DIALOGEX 0, 0, 156, 99
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "New Map"
+FONT 9, "Segoe UI"
+BEGIN
+    CONTROL "Cell size (px):", -1, "Static", SS_RIGHT | SS_CENTERIMAGE, 10, 10, 60, 12
+    EDITTEXT IDC_CELL, 78, 10, 68, 12, ES_NUMBER | ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    CONTROL "X length (px):", -1, "Static", SS_RIGHT | SS_CENTERIMAGE, 10, 31, 60, 12
+    EDITTEXT IDC_WIDTH, 78, 31, 68, 12, ES_NUMBER | ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    CONTROL "Y height (px):", -1, "Static", SS_RIGHT | SS_CENTERIMAGE, 10, 52, 60, 12
+    EDITTEXT IDC_HEIGHT, 78, 52, 68, 12, ES_NUMBER | ES_RIGHT | ES_AUTOHSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON "OK", IDOK, 40, 72, 50, 17
+    PUSHBUTTON "Cancel", IDCANCEL, 96, 72, 50, 17
+END
+
+IDD_ABOUT DIALOGEX 0, 0, 258, 94
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About APath"
+FONT 9, "Segoe UI"
+BEGIN
+    ICON IDI_APP, IDC_ABOUT_ICON, 12, 12, 24, 26
+    LTEXT "APath edits 2D walkability maps and previews\ntriangulated navigation meshes and smooth routes.", IDC_ABOUT_TEXT, 44, 12, 202, 26
+    CONTROL "<a href=""https://github.com/halfstay/apath"">https://github.com/halfstay/apath</a>", IDC_URL, "SysLink", WS_TABSTOP, 12, 43, 234, 15
+    DEFPUSHBUTTON "OK", IDOK, 194, 67, 52, 17
+END
+
+1 VERSIONINFO
+FILEVERSION 1,0,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS VOS_NT_WINDOWS32
+FILETYPE VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "APath 2D Map Editor"
+            VALUE "ProductName", "APath"
+            VALUE "FileVersion", "1.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

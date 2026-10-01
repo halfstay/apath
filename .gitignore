@@ -1,0 +1,9 @@
+.build
+*.o
+*.exe
+*.tmp
+*.amd
+
+# Vim swap, backup, and persistent undo files
+*.sw?
+*~

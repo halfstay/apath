@@ -1,0 +1,24 @@
+name: Build and test
+on: [push, pull_request]
+jobs:
+  portable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S . -B build -DAPATH_CORE_ONLY=ON -DAPATH_BUILD_TESTS=ON -DAPATH_SANITIZE=ON -DAPATH_WARNINGS_AS_ERRORS=ON -DCMAKE_BUILD_TYPE=Debug
+      - run: cmake --build build --parallel
+      - run: ctest --test-dir build --output-on-failure
+  windows-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [32, 64]
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y mingw-w64
+      - run: cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=mingw${{ matrix.arch }}.cmake -DAPATH_BUILD_TESTS=ON -DAPATH_WARNINGS_AS_ERRORS=ON
+      - run: cmake --build build --parallel
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apath-win${{ matrix.arch }}
+          path: build/apath.exe
